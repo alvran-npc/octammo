@@ -1,0 +1,57 @@
+# OctaMMO Crafting Station recipes.
+# Each ingredient occupies one input slot. Up to six ingredient slots are supported.
+# Ingredients and results support MATERIAL and MMOITEMS.
+# The optional currency section uses an ExcellentEconomy currency ID.
+recipes:
+  arcane_crystal:
+    name: "Arcane Crystal"
+    description:
+      - "A ready-to-use example for the Crafting Station."
+      - "Add a currency section to charge a custom balance."
+    ingredients:
+      - type: MATERIAL
+        material: AMETHYST_SHARD
+        amount: 4
+      - type: MATERIAL
+        material: LAPIS_LAZULI
+        amount: 2
+      - type: MATERIAL
+        material: DIAMOND
+        amount: 1
+    result:
+      type: MATERIAL
+      material: AMETHYST_BLOCK
+      amount: 1
+
+# ExcellentEconomy example. Replace 'octacoin' with an existing currency ID.
+# Add these lines inside a recipe to charge a custom currency:
+#     currency:
+#       id: octacoin
+#       amount: 250
+
+# MMOItems crafting example. Replace Type and ID with your server's items.
+# recipes:
+#   astral_sword:
+#     name: "Astral Sword"
+#     description:
+#       - "Craft an Astral Sword from custom MMOItems components."
+#     ingredients:
+#       - type: MMOITEMS
+#         item-type: SWORD
+#         item-id: ASTRAL_BLADE_HILT
+#         amount: 1
+#       - type: MMOITEMS
+#         item-type: GEM_STONE
+#         item-id: ASTRAL_CORE
+#         amount: 2
+#       - type: MATERIAL
+#         material: NETHER_STAR
+#         amount: 1
+#     currency:
+#       id: octacoin
+#       amount: 2500
+#     result:
+#       type: MMOITEMS
+#       item-type: SWORD
+#       item-id: ASTRAL_SWORD
+#       amount: 1

@@ -1,0 +1,45 @@
+name: OctaMMO
+version: '${project.version}'
+main: io.octammo.OctaMMOPlugin
+api-version: '1.21'
+description: Modular MMOItems enhancement, enchanting, crafting, and item utility suite.
+authors: [Alvran, Robozat, Team]
+softdepend: [MMOItems, MythicLib, ExcellentEconomy, Vault, PlaceholderAPI, Floodgate, WorldGuard]
+
+commands:
+  octammo:
+    description: OctaMMO main command.
+    aliases: [octa, omm]
+    usage: /<command> [help|reload|upgrade|combine|crafting|fixer|enchanting|search|list|version]
+  itemupgrade:
+    description: Open an Altar Forge upgrade station.
+    usage: /<command> [station] [path]
+
+permissions:
+  octammo.use:
+    description: Allows basic OctaMMO commands.
+    default: true
+  octammo.upgrade:
+    description: Allows access to Altar Forge upgrades.
+    default: true
+  octammo.upgrade.*:
+    description: Grants access to every configured upgrade station.
+    default: false
+  octammo.combine:
+    description: Allows access to the Combine Station.
+    default: true
+  octammo.crafting:
+    description: Allows access to the Crafting Station.
+    default: true
+  octammo.enchant:
+    description: Allows access to the custom enchanting interface.
+    default: true
+  octammo.fixer:
+    description: Allows access to the MMOItems Item Fixer.
+    default: true
+  octammo.interact.bypass:
+    description: Bypasses the MMOItems interaction lock.
+    default: op
+  octammo.admin:
+    description: Allows administrative commands and station management.
+    default: op

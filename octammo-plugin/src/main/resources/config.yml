@@ -1,0 +1,112 @@
+# OctaMMO 1.2.1-2026-dev-1 - main configuration
+# Missing keys are added automatically after an update (your values are never touched,
+# the old file is copied to backups/ first).
+config-version: 9
+
+# Startup identity banner. No animation or repeating scheduler is used.
+startup-banner:
+  enabled: true
+  hook-summary: true
+  # Cyan outline wordmark. Keep all rows the same length and quote every row.
+  # The logo is intentionally static; no animation or repeating task is used.
+  logo:
+    - '&b ___    ___    _____     _      |   |    |   |    ___ '
+    - '&b/   \  /   \     |      / \     || ||    || ||   /   \'
+    - '&b|   |  |       | |     /___\    | | |    | | |   |   |'
+    - '&b|   |  |       | |    |     |   |   |    |   |   |   |'
+    - '&b\___/  \___/   |_|    |     |   |   |    |   |   \___/'
+
+# English is the only shipped language in this release.
+language: en
+
+# auto = &-codes, &#RRGGBB, &x&R&R... or MiniMessage tags are detected per text
+# legacy = never MiniMessage, minimessage = always MiniMessage
+text-format: auto
+
+# Used through the {prefix} placeholder in lang files
+prefix: '&8[&x&F&F&0&0&0&0&lO&x&F&4&0&0&2&B&lc&x&E&9&0&0&5&5&lt&x&D&F&0&0&8&0&la&x&D&4&0&0&A&A&lM&x&C&9&0&0&D&5&lM&x&B&E&0&0&F&F&lO&8]'
+
+modules:
+  item-upgrade: true
+  custom-enchanting: true
+  combine: true
+  crafting: true
+  item-fixer: true
+
+# --------------------------------------------------------------------------- Custom Enchanting
+# Right-clicking an enchanting table opens the OctaMMO 54-slot interface.
+# Vanilla enchantments are discovered from the Bukkit enchantment registry.
+enchanting:
+  # Time allowed for a player to enter an enchanting search keyword.
+  # The value is clamped to 10-600 seconds.
+  search-timeout-seconds: 60
+  costs:
+    vanilla-per-level: 1
+
+# The enchanting interface includes a keyword search, a tier filter, and an
+# optional description view. Search accepts Paper chat input or /octammo search <keyword> after clicking the spyglass.
+
+# --------------------------------------------------------------------------- Item Fixer
+item-fixer:
+  # Preserve native Minecraft enchantments during template reconstruction.
+  preserve-vanilla-enchantments: true
+  # The repair operation uses MMOItems' native Revision/Reforger API. It deliberately
+  # disables transfer of old lore so the current Type/ID template lore is regenerated.
+  # Other data is preserved according to MMOItems' item-revision.keep-data settings.
+
+# --------------------------------------------------------------------------- Interact lock
+# MMOItems items cannot place blocks, break blocks, till farmland (hoe) or make dirt paths (shovel),
+# in the main hand or the offhand. Opening chests, anvils, workbenches (cartography table, smoker, blast furnace,
+# stonecutter, ...), doors, gates and putting items in item frames still work.
+# Sneaking + right click is blocked too: vanilla then tries to place the item, and that placement is cancelled.
+# Staff can be exempted with the permission octammo.interact.bypass (nobody has it by default, not even OPs).
+# NOTE: this also stops MMOItems' own custom block placement.
+interact-lock:
+  enabled: true
+  block-place: true
+  block-break: true         # the item in the main hand
+  hoe-farmland: true
+  shovel-path: true
+  other-placement: true     # item frames, paintings, boats, minecarts, armor stands, end crystals, buckets
+  notify: true              # action bar message, at most once per second
+
+# --------------------------------------------------------------------------- Item Upgrade
+upgrade:
+  # Ask "are you sure?" (guis/confirm.yml) when a failure costs the input item and no protection item is inserted
+  confirm-destroy: true
+  # Creative players can duplicate items in custom GUIs, so they are refused by default
+  allow-creative: false
+  # Players also need octammo.upgrade.<station id> for every station
+  require-station-permission: false
+  global-cooldown: 0        # seconds between two upgrades of a player, any station
+  # Highest value of the "result amount" button (a path can override it with output.max-multiplier).
+  # It is also limited by the stack size of the input item and by the number of rune slots.
+  max-multiplier: 16
+
+# Title loading shown after the upgrade button: the GUI closes, the title counts 1% -> 100%,
+# then the result is delivered and the GUI opens again. No animation runs inside the GUI.
+upgrade-loading:
+  enabled: true
+  duration-ticks: 100       # 100 ticks = 5 seconds (a station or path can override it with loading.duration-ticks)
+  title: ''                 # empty = lang key upgrade.loading.title
+  subtitle-format: ''       # empty = lang key upgrade.loading.subtitle, {percent} is replaced
+  percent-step: 1           # send the title only every N percent (raise it to send fewer packets)
+  title-times: { fade-in: 0, stay: 10, fade-out: 0 }   # ticks
+  sound: { enabled: true, tick: BLOCK_NOTE_BLOCK_CHIME, every-percent: 10 }
+  result-title-ticks: 40
+  reopen-gui-after: true
+  lock:
+    freeze-movement: true   # slowness + negative jump boost, no PlayerMoveEvent listener
+    invulnerable: true
+    block-commands: true
+    allowed-commands: []
+    block-interact: true    # interact, place and break blocks
+    block-inventory: true   # open / click inventory, change hotbar slot, swap hands
+    block-drop-pickup: true
+    block-combat: true
+
+# Sounds: "entity.player.levelup" or "ENTITY_PLAYER_LEVELUP". Leave empty to disable one.
+sounds:
+  success: entity.player.levelup
+  fail: entity.item.break
+  click: ui.button.click

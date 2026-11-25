@@ -1,0 +1,39 @@
+# Crafting Atelier GUI layout. All slot positions use the 0-53 range.
+title: "&8✦ &#36D7D2&lOCTAMMO &8» &#8BE9E4&lARCANE CRAFTING"
+decoration:
+  material: CYAN_STAINED_GLASS_PANE
+  accent-material: LIGHT_BLUE_STAINED_GLASS_PANE
+  name: "&#54D8D2&l✦"
+  lore: "&8OctaMMO Crafting Atelier"
+slots:
+  header: 4
+  previous: 48
+  next: 50
+  page-info: 49
+  close: 53
+  empty-info: 22
+  entries: [10, 12, 14, 16, 19, 21, 23, 25, 28, 30, 32, 34]
+  inputs: [19, 20, 21, 28, 29, 30]
+  output: 25
+  currency: 38
+  process-info: 13
+  action: 40
+  back: 45
+
+sounds:
+  select:
+    type: BLOCK_ANVIL_PLACE
+    volume: 0.45
+    pitch: 1.25
+  insert:
+    type: BLOCK_ANVIL_LAND
+    volume: 0.28
+    pitch: 1.55
+  fail:
+    type: BLOCK_ANVIL_LAND
+    volume: 0.5
+    pitch: 0.7
+  success:
+    type: BLOCK_ANVIL_USE
+    volume: 0.8
+    pitch: 1.05

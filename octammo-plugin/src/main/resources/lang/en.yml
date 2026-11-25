@@ -1,0 +1,255 @@
+config-version: 6
+
+reloaded-ok: "{prefix} &aReloaded. &7({files} station(s))"
+plugin-description: "A modular MMOItems utility suite with enchanting, crafting, combining, and item repair."
+about:
+  - "&8&m                                        "
+  - "&#FFD700✦ &f&lOctaMMO"
+  - "&7Author: &f{authors}"
+  - "&7Version: &f{version}"
+  - "&7Description: &f{description}"
+  - "&8&m                                        "
+commands-help:
+  - "&8&m                                        "
+  - "&#FFD700✦ &f&lOctaMMO &8» &7commands"
+  - "&b/octammo upgrade [station] [player] [path] &7- open an Altar Forge"
+  - "&b/octammo combine &7- open the Combine Station"
+  - "&b/octammo crafting &7- open the Crafting Station"
+  - "&b/octammo fixer &7- open the MMOItems Item Fixer"
+  - "&b/octammo enchanting &7- open the custom enchanting GUI"
+  - "&b/octammo search <keyword> &7- submit an active enchantment search"
+  - "&b/octammo list &7- list upgrade stations"
+  - "&b/octammo reload &7- reload plugin files"
+  - "&b/itemupgrade [station] [path] &7- open an upgrade station"
+  - "&b/octammo ver &7- version and credits"
+  - "&8&m                                        "
+
+no-permission: "{prefix} &cYou don't have permission to do that."
+player-only: "{prefix} &cOnly players can use this command."
+player-not-found: "{prefix} &cPlayer not found: &f{player}"
+module-disabled: "{prefix} &cThis module is disabled."
+# Custom Enchanting
+enchanting:
+  search-prompt: "{prefix} &eType an enchantment name or ID in chat. Use &f/octammo search <keyword> &eif chat input is blocked. Type &cCANCEL &eto stop."
+  search-command-usage: "{prefix} &eUsage: /octammo search <keyword>"
+  search-not-pending: "{prefix} &cClick Search Enchantments in the enchanting menu before using this command."
+  search-cancelled: "{prefix} &7Enchantment search cancelled."
+  search-expired: "{prefix} &7Enchantment search expired. You can click Search again."
+  search-updated: "{prefix} &aSearch filter updated: &f{keyword}&a."
+  max-level: "{prefix} &e{enchant} &ehas already reached its maximum level."
+  not-enough-xp: "{prefix} &cYou need &f{cost} XP level(s) &cto apply that enchantment."
+  apply-failed: "{prefix} &cThe enchantment could not be applied. Check the enchantment and item compatibility."
+  single-item-only: "{prefix} &cEnchanting processes one item at a time."
+  applied: "{prefix} &aApplied &f{enchant} &7(level &f{level}&7)."
+  incompatible: "{prefix} &c{enchant} cannot be applied: {reason}."
+
+# Combine and Crafting Stations
+recipe:
+  missing-ingredient: "{prefix} &cMissing or invalid ingredient: &f{ingredient} &7(need {amount}x)."
+  wrong-ingredient: "{prefix} &cThat slot only accepts &f{ingredient}&c."
+  slot-full: "{prefix} &eThat ingredient slot is already full."
+  slot-has-item: "{prefix} &cRemove the current ingredient before placing a different stack."
+  currency-unavailable: "{prefix} &cYou need &f{amount} {currency}&c, or that currency is unavailable."
+  payment-failed: "{prefix} &cThe currency transaction failed. No ingredients were consumed."
+  combine-success: "{prefix} &aSuccessfully combined the ingredients into &f{recipe}&a."
+  craft-success: "{prefix} &aSuccessfully crafted &f{recipe}&a."
+
+# MMOItems Item Fixer
+fixer:
+  insert-item: "{prefix} &cPlace an item in the input slot first."
+  single-item-only: "{prefix} &cThe Item Fixer processes one item at a time."
+  not-mmoitem: "{prefix} &cThat item is not a valid MMOItems item."
+  template-missing: "{prefix} &cMMOItems template not found: &f{type}:{id}&c. Nothing was changed."
+  rebuild-failed: "{prefix} &cMMOItems could not safely rebuild this item. Nothing was changed."
+  repair-success: "{prefix} &aRebuilt &f{item}&a. Returned &f{gems} &agemstone(s), &f{skin} &askin(s), and removed upgrade level &f{upgrades}&a."
+
+interact:
+  blocked: "&c✘ &7MMOItems items cannot place or break blocks."
+
+upgrade:
+  file-not-found: "{prefix} &cStation not found: &f{file}"
+  path-not-found: "{prefix} &cPath not found: &f{path}"
+  no-paths: "{prefix} &cThis station has no valid paths."
+  available: "{prefix} &7Stations: &f{files}"
+  list-empty: "{prefix} &7No stations loaded."
+  region-denied: "{prefix} &cYou can't upgrade items in this area."
+  world-denied: "{prefix} &cYou can't upgrade items in this world."
+  creative-denied: "{prefix} &cUpgrading is not available in creative mode."
+  bedrock-unsupported: "{prefix} &cThis GUI is only available for Java Edition players."
+  busy: "{prefix} &cAn upgrade is already in progress."
+  autofill-done: "{prefix} &aThe items were placed from your inventory."
+  autofill-missing: "{prefix} &eYou are missing: &f{items}"
+  autofill-nothing: "{prefix} &7Nothing to place."
+  amount-max: "{prefix} &cThe maximum is &f{max} &cfor this path."
+  too-many-runes: "{prefix} &cPath &f{path} &cneeds more rune slots than the GUI has. Tell an admin."
+  output-missing: "{prefix} &cThe result item &f{item} &cdoes not exist in MMOItems. Nothing was taken."
+  payment-failed: "{prefix} &cThe payment could not be completed. Nothing else was taken."
+  pending-delivered: "{prefix} &aYour pending upgrade reward was delivered."
+  opened-for: "{prefix} &7Opened &f{file} &7for &f{player}&7."
+  success: "{prefix} &a&lSUCCESS! &7Your item became &f{amount}x {item}&7."
+  failed-keep: "{prefix} &c&lFAILED! &7The upgrade failed, but your item is safe."
+  failed-destroy: "{prefix} &c&lFAILED! &7The upgrade failed and your item was lost."
+  failed-downgrade: "{prefix} &c&lFAILED! &7The upgrade failed and your item was downgraded."
+  failed-protected: "{prefix} &c&lFAILED! &7The upgrade failed, but your protection saved the item."
+  broadcast: "{prefix} &f{player} &7forged &f{output-name}&7!"
+  problem:
+    none: "&a✔ &7Everything is ready."
+    no-input: "&c✘ &7Insert the item to upgrade."
+    runes: "&c✘ &7Fill every rune slot."
+    permission: "&c✘ &7You may not use this station."
+    world: "&c✘ &7Not allowed in this world."
+    region: "&c✘ &7Not allowed in this area."
+    cooldown: "&c✘ &7Wait &f{seconds}s &7before the next upgrade."
+    requirements: "&c✘ &7A requirement is not met."
+    economy: "&c✘ &7No economy plugin available."
+    costs: "&c✘ &7You can't pay every cost."
+  gui:
+    reject-input: "{prefix} &cThis slot only accepts &f{name}&c."
+    reject-rune: "{prefix} &cThis rune slot needs &f{name}&c."
+    reject-booster: "{prefix} &cThat is not a booster for this path."
+    reject-protection: "{prefix} &cThat is not a protection item for this path."
+    reject-quick: "{prefix} &cNothing in the GUI accepts that item."
+  loading:
+    title: "&6&lUpgrade In Progress!!"
+    subtitle: "&e&l{percent}%"
+    result-success: "&a&l✔ Upgrade Success!"
+    result-fail: "&c&l✘ Upgrade Failed"
+    locked: "{prefix} &cYou are upgrading, wait until it is done."
+
+gui:
+  autofill:
+    name: "&#FFAA00&l⚙ AUTO FILL"
+    lore:
+      - "&8&m                    "
+      - "&7Moves the item and every required"
+      - "&7material from your inventory"
+      - "&7into the slots."
+      - ""
+      - "&e➤ Click to fill"
+  amount:
+    name: "&#55FFFF&l✚ RESULT AMOUNT"
+    lore:
+      - "&8&m                    "
+      - "&7Result: &f{expression} &8= &e{total}"
+      - "&7Batch: &f{multiplier}&8/&f{max}"
+      - ""
+      - "&e➤ Left click: &7+{step}"
+      - "&e➤ Right click: &7-{step}"
+      - "&e➤ Shift click: &7reset"
+  back: "&e&l« &7Back"
+  cancel: "&c&l✘ &7Cancel"
+  close: "&c&l✘ &7Close"
+  info:
+    name: "&#FFD700&l✦ &#FFFFFF&l{station} &#FFD700&l✦"
+    lore:
+      - "&8&m                              "
+      - "&#B388FF❖ &7Path: &f{path}"
+      - "&#B388FF❖ &7{description}"
+      - "&8&m                              "
+      - "&7Place the item &8& &7materials in the slots,"
+      - "&7then press &a➤ UPGRADE"
+  input:
+    name: "&e&l✦ Item to upgrade"
+    lore:
+      - "&8&m                    "
+      - "&7Place: &f{item}"
+  rune:
+    empty:
+      name: "&7&l✧ Rune slot"
+      lore:
+        - "&8&m                    "
+        - "&7Needs: &f{amount}x &f{item}"
+    missing:
+      name: "&c&l✘ {item}"
+      lore:
+        - "&7Placed: &c{have}&8/&f{amount}"
+    ok:
+      name: "&a&l✔ {item}"
+      lore:
+        - "&7Placed: &a{have}&8/&f{amount}"
+  booster:
+    name: "&#55FFFF&l⚡ Booster slot"
+    lore:
+      - "&8&m                    "
+      - "&7Optional: every booster item"
+      - "&7adds to the success chance."
+    locked: "&8✧ No booster slot"
+  protection:
+    name: "&#55FF55&l☠ Protection slot"
+    lore:
+      - "&8&m                    "
+      - "&7Optional: saves your item when a"
+      - "&7failure would cost it."
+    locked: "&8✧ No protection for this path"
+  requirements:
+    name: "&#FFAA00&l⚒ REQUIREMENTS"
+    header: "&8&m                              "
+    line-ok: "&a✔ &7{text}"
+    line-missing: "&c✘ &7{text}"
+    progress: "{text} &8({have}/{amount})"
+    none: "&7No requirements."
+  chance:
+    name: "&#FFD700&l⚡ SUCCESS CHANCE"
+    lore:
+      - "&8&m                              "
+      - "&7Base: &f{base}%"
+      - "&7Booster: &a+{booster}% &8({booster-count}x)"
+      - "&6➤ Total: &e{chance}%"
+      - "{bar}"
+  output:
+    missing: "&c&l✘ Result item missing"
+    lore:
+      - ""
+      - "&8&m                              "
+      - "&#55FFFF★ &7Upgrade result: {output-name}"
+      - "&7Chance: &e{chance}%"
+    lore-weighted:
+      - ""
+      - "&8&m                              "
+      - "&#55FFFF★ &7One of &f{results} &7possible results"
+      - "&7Chance: &e{chance}%"
+  upgrade-button:
+    ready: "&a&l➤ UPGRADE NOW"
+    ready-lore:
+      - "&8&m                    "
+      - "&7Everything is in place."
+      - "&eClick to start."
+    not-ready: "&c&l✘ NOT READY"
+    not-ready-lore:
+      - "&8&m                    "
+      - "{reason}"
+  path:
+    info:
+      - "&7Choose an upgrade path."
+    entry-name: "{path}"
+    entry-lore:
+      - "&8&m                              "
+      - "&7Needs: &f{input}"
+      - "&7Becomes: &f{output}"
+      - "&7Chance: &e{chance}%"
+      - "{description}"
+      - ""
+      - "&e➤ Click to open"
+  station-list:
+    title: "&8✦ &#FFD700&lAltar Forge &8» &7Stations"
+    info:
+      - "&7Choose a station."
+    entry-name: "{station}"
+    entry-lore:
+      - "&8&m                    "
+      - "&7Paths: &f{paths}"
+      - ""
+      - "&e➤ Click to open"
+  confirm:
+    title: "&c&l☠ Are you sure?"
+    warning:
+      - "&7If this upgrade fails you will"
+      - "&7lose the input item."
+    accept: "&a&l✔ Yes, upgrade"
+    decline: "&c&l✘ No, go back"
+
+cost:
+  money: "Money: {amount}"
+  levels: "{amount} XP level(s)"
+  item: "{amount}x {name}"
+

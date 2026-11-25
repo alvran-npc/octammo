@@ -1,0 +1,18 @@
+# "Are you sure?" menu (6 rows), shown before a risky upgrade.
+config-version: 3
+rows: 6
+title: '&8✦ &#FFD700&lAltar Forge &8» &7{station}'
+
+theme:
+  border: BLACK_STAINED_GLASS_PANE
+  filler: GRAY_STAINED_GLASS_PANE
+
+slots:
+  info: 13
+  confirm: 29
+  cancel: 33
+
+items:
+  info:    { material: TNT, name: '{gui.confirm.title}', lore: ['{gui.confirm.warning}'] }
+  confirm: { material: LIME_CONCRETE, name: '{gui.confirm.accept}' }
+  cancel:  { material: RED_CONCRETE, name: '{gui.confirm.decline}' }

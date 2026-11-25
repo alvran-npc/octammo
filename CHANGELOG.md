@@ -1,3 +1,26 @@
+## [1.2.1-2026-dev-1] - 2026-11-25
+
+### Changed
+- Removed the direct AdvancedEnchantments hook, lifecycle setup, startup status, soft dependency, and Item Fixer extraction action.
+- Kept the Custom Enchanting interface limited to Vanilla Minecraft enchantments through Bukkit's registry and native compatibility checks.
+
+### Fixed
+- Item Fixer now reads installed MMOItems gemstones through `LiveMMOItem.extractGemstones()` and restores their original MMOItems data as separate items.
+- Item Fixer detects applied skins using MMOItems skin ID/type tags and returns the matching skin item as a separate MMOItem.
+- Item Fixer disables MMOItems upgrade, gemstone, and skin transfer during native reforge, removing the installed `(+N)` upgrade state while rebuilding the base item.
+- The repair transaction is cancelled without consuming the original item when a stored gemstone or skin cannot be restored.
+- Combine and Crafting now use the same `upgrade.allow-creative` setting and `upgrade.creative-denied` message as Item Upgrade, with checks at menu opening and before processing.
+
+### Compatibility and scope
+- No Altar Forge behavior, public API contract, interaction-lock behavior, or permission defaults were intentionally changed.
+- Gemstone recovery uses MMOItems' LiveMMOItem API only when a player confirms Item Fixer repair; it is not run during inventory refreshes or repeating tasks.
+
+### Verification
+- YAML and Maven descriptor validation are included in this source-package check.
+- A dependency-backed Maven build and live Paper/MMOItems test must still be run on the target server before production use.
+
+---
+
 # Changelog
 
 ## [1.2.0-SNAPSHOT] - 2026-11-14
@@ -79,3 +102,11 @@
 ### Verification notes
 - AdvancedEnchantments documents `/ae give <player> <enchantment> <level>` as the command that gives a custom enchanted book. Runtime capture behavior must still be checked with the exact AE version and book configuration on the target server.
 - Maven compilation and live Paper-server testing remain required before production deployment.
+
+
+## Startup Wordmark Correction
+
+- Replaced the compact dotted placeholder with a large, clearly readable ASCII OCTAMMO wordmark inspired by the supplied reference.
+- Added configurable cyan (`&b`) coloring while retaining the normal timestamp and `[OctaMMO]` logger prefix.
+- Bumped the config schema to version 8. The known previous default logo is migrated automatically; custom administrator logos are preserved.
+- The banner remains static and does not schedule animation or repeating tasks.

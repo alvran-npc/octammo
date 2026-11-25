@@ -1,34 +1,38 @@
-# OctaMMO 1.2.0-BETA Hotfix Notes
+# OctaMMO 1.2.1-2026-dev-1
 
-## Startup identity
+## Requested changes
 
-- Prints a static, five-line OCTAMMO wordmark during enable.
-- Shows the resolved plugin version, Bukkit/Paper server version, and optional-hook status.
-- The banner can be disabled or edited through `startup-banner` in `config.yml`.
-- No animation, repeating task, or delayed startup effect is used.
+### AdvancedEnchantments
 
-## Enchanting and Item Fixer
+- Removed the direct AdvancedEnchantments hook class and its initialization.
+- Removed AdvancedEnchantments from the plugin soft-dependency list and OctaMMO startup hook summary.
+- Removed AE-specific enchanting and Item Fixer behavior. Custom Enchanting now lists Vanilla Minecraft enchantments through Bukkit only.
+- MMOItems' own `ReforgeOptions` preservation value for external enchantment metadata remains enabled. This is an MMOItems data-preservation option, not an OctaMMO AdvancedEnchantments hook.
 
-- Input click, shift-click, number-key, offhand, and drag operations apply after the inventory event has completed.
-- The enchant search supports Paper chat input and `/octammo search <keyword>` after clicking Search in the GUI. The pending state survives external inventory closure, expires after one minute, and returns input on cancel, timeout, quit, new session, or shutdown.
-- Search updates the displayed list, resets the page, and restores the GUI if another chat handler closed it.
-- Enchant compatibility is checked against the inserted material, MMOItems Type/ID, AE `applies` rules, current Vanilla enchant conflicts, and configured AE conflicts. Incompatible options are red and cannot be applied.
-- Extraction requests each enchanted book from AdvancedEnchantments using the configured `/ae give` command. OctaMMO captures and returns the item AE actually generated instead of manufacturing a replacement book.
-- A failed book-generation step leaves the original MMOItems input untouched.
+### MMOItems Item Fixer
 
-## Combine and Crafting
+- Reads gemstone socket data and restores each recoverable gemstone as its original MMOItems Type/ID item, including MMOItems-provided historical stat data.
+- Detects the applied skin using MMOItems' `MMOITEMS_SKIN_ID` and `MMOITEMS_SKIN_TYPE` tags and returns the matching skin template as a separate item.
+- Rebuilds through MMOItems' native Reforger with upgrades, gemstones, and skins disabled, removing the installed `(+N)` upgrade state.
+- Verifies the rebuilt item retains its original Type/ID and no longer contains gemstones, an installed skin, or a positive upgrade level.
+- Cancels the repair and keeps the original input item if a gemstone/skin cannot be restored or the rebuilt output fails verification.
+- The full gemstone recovery read runs only after the player confirms Repair.
 
-- Recipe index and detail screens use configurable tinted-glass frames and separate visual accents for each workstation.
-- Recipe, page and item actions use short anvil sounds. Successful processing uses the anvil-use sound. Sound type, volume and pitch are configurable in the two workstation GUI YAML files.
-- No animated GUI tasks or repeating inventory updates are used.
-- Ingredient insertion, hotbar and offhand handling are deferred until after the inventory event and revalidated before moving stacks.
+### Creative mode
 
-## Configuration
+- Combine and Crafting use the existing `upgrade.allow-creative` setting and `upgrade.creative-denied` message.
+- The restriction is applied when opening the command, interacting with the recipe GUI, and immediately before processing.
+- No new permission or configuration key was added.
 
-- Enchanting, Item Fixer, Combine and Crafting layouts are separate files in `plugins/OctaMMO/guis/`.
-- Startup banner, enchanting search timeout, and the AdvancedEnchantments book command are configurable in `config.yml`.
-- All shipped messages, GUI labels, lore, configuration comments and documentation are English.
+## Preserved behavior
 
-## Verification boundary
+- Existing Altar Forge and public API behavior is not intentionally changed.
+- Existing command/permission definitions are retained.
+- Existing MMOItems interaction lock behavior and bypass permission are retained exactly as present in the source being updated.
+- GUI layouts, startup wordmark, and unrelated recipe behavior are not changed by this update.
 
-YAML and Maven descriptor validation can be performed on the source bundle. A full Maven compile and a live server test still must be run with the actual Paper, MMOItems, MythicLib, AdvancedEnchantments and ExcellentEconomy versions used by the target server. This source is a BETA build, not a claim of a server-certified release.
+## Validation
+
+- YAML and Maven POM structure are validated before packaging.
+- Java source structure is checked separately from dependency-backed compilation.
+- A full Maven build and live Paper/MMOItems gameplay test must still be run with the exact server dependencies. This environment does not have Maven installed, so no successful compile or runtime test is claimed.

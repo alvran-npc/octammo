@@ -1,0 +1,48 @@
+# OctaMMO Combine Station recipes.
+# Add up to six ingredients. Each ingredient is inserted into its own GUI slot.
+# Supported ingredient/result types: MATERIAL and MMOITEMS.
+# MMOItems are matched by their exact Type and Item ID.
+recipes:
+  reforged_diamond_blade:
+    name: "Reforged Diamond Blade"
+    description:
+      - "Combine an iron blade with refined materials."
+      - "This sample recipe is ready to use on a fresh installation."
+    ingredients:
+      - type: MATERIAL
+        material: IRON_SWORD
+        amount: 1
+      - type: MATERIAL
+        material: DIAMOND
+        amount: 2
+      - type: MATERIAL
+        material: IRON_INGOT
+        amount: 4
+    result:
+      type: MATERIAL
+      material: DIAMOND_SWORD
+      amount: 1
+
+# MMOItems recipe example. Replace the Type and ID values with your own items.
+# recipes:
+#   stormforged_blade:
+#     name: "Stormforged Blade"
+#     description:
+#       - "Combine three MMOItems components into a weapon."
+#     ingredients:
+#       - type: MMOITEMS
+#         item-type: MATERIAL
+#         item-id: STORM_CORE
+#         amount: 2
+#       - type: MMOITEMS
+#         item-type: SWORD
+#         item-id: WEATHERED_BLADE
+#         amount: 1
+#       - type: MATERIAL
+#         material: NETHER_STAR
+#         amount: 1
+#     result:
+#       type: MMOITEMS
+#       item-type: SWORD
+#       item-id: STORMFORGED_BLADE
+#       amount: 1

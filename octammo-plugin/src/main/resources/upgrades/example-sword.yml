@@ -1,0 +1,100 @@
+# Example station. Open it with /itemupgrade example-sword  (or /octammo:itemupgrade example-sword)
+# One file = one station, every entry under `paths:` is one upgrade path. With several paths the player first sees
+# a path menu, /itemupgrade <station> <path> opens one path directly.
+#
+# In the GUI the player puts the item to upgrade, every ITEM cost, optional boosters and an optional
+# protection into the slots, then presses the green button. The GUI closes, a title counts 1% -> 100%,
+# the result is delivered and the GUI opens again (empty).
+# Money, XP levels and custom costs are charged from the player and shown in the checklist.
+# The auto fill button moves the item and the required materials from the inventory into the slots,
+# the result amount button chooses how many times the default result amount you get (see `output` below).
+#
+# Replace the TYPE / ID values with items that exist in your MMOItems.
+
+config-version: 1
+display-name: "&5Corrupted Sword Forge"
+permission: ""                  # e.g. octammo.upgrade.example-sword, empty = no extra permission
+gui: "default-upgrade"          # file in guis/ (without .yml)
+cooldown: 5                     # seconds per player for this station
+worlds-blacklist: []            # world names
+worldguard-regions-blacklist: []   # region ids (also the WorldGuard flag octammo-upgrade: deny)
+# loading: { duration-ticks: 100 }  # overrides upgrade-loading.duration-ticks for the station
+
+paths:
+  tier-2:
+    display-name: "&dCorrupted Sword II"
+    description:
+      - "&7Upgrade to the second tier."
+    # every line must be true before the button turns green
+    requirements:
+      - "level >= 30"
+      - "permission octammo.use"
+      # - "placeholder %player_level% >= 30"      # needs PlaceholderAPI
+      # - "my-requirement some arguments"          # registered by another plugin through the API
+    input:                       # the item that gets upgraded
+      type: SWORD
+      id: CORRUPTED_SWORD
+      amount: 1
+      consume: true              # false = the input item is kept even on success
+    costs:
+      - { kind: MMOITEMS, type: MATERIAL, id: CORRUPTED_ESSENCE, amount: 10 }   # goes into rune slots
+      - { kind: VANILLA, material: DIAMOND, amount: 5 }                         # plain vanilla item, rune slots
+      - { kind: MONEY, provider: vault, amount: 5000 }                          # Vault / Excellent Economy (via Vault)
+      - { kind: LEVELS, amount: 15 }
+      # - { kind: CUSTOM, id: my-points, amount: 100 }                          # CostType registered through the API
+    output:
+      mode: SINGLE               # SINGLE or WEIGHTED (one of several results by weight)
+      results:
+        # `amount` is the default result amount. The result amount button in the GUI adds it step by step:
+        # amount 1 -> 1, 1+1, 1+1+1 ...    amount 2 -> 2, 2+2, 2+2+2 ...
+        - { type: SWORD, id: CORRUPTED_SWORD_II, amount: 1, weight: 100, preserve: [] }
+        # preserve: [gems, soulbound, upgrade-level, durability] = raw NBT copy, best effort, leave it empty if unsure
+      # With the button above 1 the input, item costs, money and levels are multiplied too and ONE roll decides the
+      # whole batch. scale-costs: false only multiplies the result (a free multiplier, use with care).
+      scale-costs: true
+      max-multiplier: 5          # optional cap for this path (default: upgrade.max-multiplier in config.yml)
+    chance:
+      base: 75.0                 # percent
+      max-total: 100.0           # upper limit of the final chance
+      booster-slots: 3           # 0-3 booster slots are active
+      booster-consume: ALWAYS    # ALWAYS | SUCCESS_ONLY | NEVER
+      # The percent of ALL booster items is ADDED: base 75 + 1 Lucky Charm = 85, + 2 = 95, + 3 = 100 (max-total).
+      # A slot may hold a stack, items in different slots are summed, different boosters can be mixed.
+      # Only the pieces that really count (up to max-items) are consumed, the rest goes back to the player.
+      boosters:
+        - { kind: MMOITEMS, type: CONSUMABLE, id: LUCKY_CHARM, add: 10.0, max-items: 3 }
+        - { kind: MMOITEMS, type: CONSUMABLE, id: GOLDEN_CHARM, add: 25.0, max-items: 1 }
+    on-fail:
+      input: KEEP                # KEEP | CONSUME | DOWNGRADE (needs `downgrade`) | BREAK (protection does not help)
+      costs: CONSUME             # CONSUME | REFUND | PARTIAL (refund-percent)
+      refund-percent: 50
+      # downgrade: { type: SWORD, id: CORRUPTED_SWORD_WEAK }
+      protection:                # optional slot; the item is only used up when it actually saves the input
+        kind: MMOITEMS
+        type: CONSUMABLE
+        id: PROTECTION_SCROLL
+        keeps-input: true
+    on-success:
+      commands:
+        - "console: broadcast {player} forged a {output-name}!"
+        # - "player: say hello"
+      sound: ENTITY_PLAYER_LEVELUP
+      title: "&a&l✔ Upgrade Success!"   # replaces the default result title
+      broadcast: false           # true = broadcast the lang message upgrade.broadcast
+    on-fail-effects:
+      commands: []
+      sound: BLOCK_ANVIL_DESTROY
+      title: "&c&l✘ Upgrade Failed"
+
+  tier-3:
+    display-name: "&6Corrupted Sword III"
+    input: { type: SWORD, id: CORRUPTED_SWORD_II, amount: 1 }
+    costs:
+      - { kind: MMOITEMS, type: MATERIAL, id: CORRUPTED_CORE, amount: 3 }
+    output:
+      mode: SINGLE
+      results:
+        - { type: SWORD, id: CORRUPTED_SWORD_III, amount: 1, weight: 100 }
+    chance: { base: 45.0 }
+    on-fail: { input: CONSUME, costs: PARTIAL, refund-percent: 50 }
+    loading: { duration-ticks: 160 }

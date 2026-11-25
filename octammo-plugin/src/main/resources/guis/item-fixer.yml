@@ -1,0 +1,11 @@
+# MMOItems Item Fixer GUI layout. Slot numbers are 0-53 (six rows).
+title: "&8✦ &#F59E0B&lOCTAMMO &8» &6ITEM FORGE"
+decoration:
+  material: PURPLE_STAINED_GLASS_PANE
+  name: "&#B56CFF&l✦"
+  lore: "&8OctaMMO Item Utility"
+slots:
+  input: 20
+  extract: 24 # Informational panel; restoration happens automatically during repair.
+  repair: 30
+  close: 49
